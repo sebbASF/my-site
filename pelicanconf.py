@@ -13,6 +13,7 @@ TIMEZONE = 'UTC'
 THEME = 'theme/apache'
 # Specify location of plugins, and which to use
 PLUGIN_PATHS = [ '/tmp/pelican-asf/plugins',  ]
+# If the website uses any *.ezmd files, include the 'asfreader' plugin
 PLUGINS = [ 'gfm', 'asfindex', 'consensual_youtube', 'asfgenid', 'asfdata', 'asfrun', 'asfreader',  ]
 # All content is located at '.' (aka content/ )
 PAGE_PATHS = [ '.' ]
