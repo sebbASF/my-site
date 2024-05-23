@@ -10,7 +10,8 @@ jobs:
   build-pelican:
     runs-on: ubuntu-latest
     steps:
-      - uses: apache/infrastructure-actions/build-pelican@simplify # temp override
+      # - uses: apache/infrastructure-actions/build-pelican@simplify # temp override
+      - uses: sebbASF/infra-actions/build-pelican@main
         with:
           destination: 'gha-site'
           # Temp override
