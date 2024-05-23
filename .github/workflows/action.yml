@@ -67,13 +67,19 @@ jobs:
           # Remove all existing output so deletions will be captured
           rm -rf output
           git rm --quiet -r --ignore-unmatch --cached output/*
-      - name: Commit change
+      - name: Copy new
         shell: bash
         run: |
           cp -rT /tmp/output ${{ inputs.output }}
           git diff # Show changes
+      - name: Add updates
+        shell: bash
+        run: |
           git add ${{ inputs.output }}
           git status
+      - name: Commit change
+        shell: bash
+        run: |
           if git commit -m "Commit build products"
           then
             git push
