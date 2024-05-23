@@ -43,7 +43,7 @@ jobs:
         shell: bash
         run: |
           docker run --quiet -v /tmp:/out -v $PWD:/site --entrypoint bash ${{ inputs.image }} \
-            -c "source /tmp/pelican-asf/LIBCMARKDIR.sh && python3 -m pelican content -o /out/output"
+            -c "source /tmp/pelican-asf/LIBCMARKDIR.sh && python3 -m pelican content -o output.tmp
       - name: Checkout site deploy branch
         shell: bash
         run: |
@@ -70,7 +70,8 @@ jobs:
       - name: Copy new
         shell: bash
         run: |
-          cp -rT /tmp/output ${{ inputs.output }}
+          mv output.tmp output
+          # cp -rT /tmp/output ${{ inputs.output }}
           git diff # Show changes
       - name: Add updates
         shell: bash
