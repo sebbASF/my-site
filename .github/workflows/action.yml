@@ -2,27 +2,23 @@ name: Build a Pelican Website2
 
 on:
   workflow_dispatch:
+    inputs:
+      destination:
+        description: "Pelican Output branch"
+        required: false
+        default: 'gha-site'
+      output:
+        description: "Output directory"
+        required: false
+        default: 'output'
+      image:
+        description: "Docker Image"
+        required: false
+        default: 'ghcr.io/sebbasf/infra-pelican:latest'
+
 
 permissions:
   contents: write
-
-inputs:
-  destination:
-    description: "Pelican Output branch"
-    required: false
-    default: 'gha-site'
-  output:
-    description: "Output directory"
-    required: false
-    default: 'output'
-  gfm:
-    description: "Uses GitHub Flavored Markdown"
-    required: false
-    default: 'false'
-  image:
-    description: "Docker Image"
-    required: false
-    default: 'ghcr.io/sebbasf/infra-pelican:latest'
 
 
 jobs:
