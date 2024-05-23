@@ -37,7 +37,7 @@ notifications:
 pelican:
   notify: site-cvs@apache.org
   autobuild: preview/*
-  target: asf-site
+  target: gha-site
   theme: theme/apache
   # N.B. currently the page count is also defined in the hourly cron job - go figure
   minimum_page_count: 170
