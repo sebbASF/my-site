@@ -1,10 +1,13 @@
+
 name: Build a Pelican Website
 on:
   workflow_dispatch:
   # push:
+  #   paths:
+  #     - 'content/**' # can this vary?
 
 permissions:
-  contents: write
+  contents: write # needed to commit updates to the output branch
 
 jobs:
   build-pelican:
