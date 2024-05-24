@@ -233,13 +233,52 @@ Two files are (only) equal if their checksums are equal.
 Comparing the checksums of two files is as good as comparing the two files
 themselves.</p>
 <p>There are lots of checksum algorithms. We use SHA-256 and SHA-512. MD5 and SHA-1, which may have been used for older releases, are <em>deprecated</em>.
-<!-- raw HTML omitted -->
+<br/>
 The download page shows which checksum files
 are available for the <em>original</em> file.</p>
 <p>To check a hash, you have to <em>compute</em> the proper checksum of the file
 you just downloaded ;
 then <em>compare</em> it with the published checksum of the <em>original</em>.</p>
-<!-- raw HTML omitted -->
+<div>
+<style type="text/css">
+td  { padding : 5px ; font-family : monospace ; font-size : smaller }
+th  { padding : 5px ; text-align : center ; }
+</style>
+<blockquote>
+<table border="1" class="table">
+<tr>
+<th colspan="4"><i>compute the checksum of your file ...</i></th>
+<th rowspan="1"><i>compare with</i></th>
+</tr>
+<tr><td></td>
+<th>Windows</th>
+<th>Linux</th>
+<th>Mac</th>
+<td></td>
+</tr>
+<tr><th>SHA-1 (deprecated)</th><td>certUtil -hashfile <i>file</i> SHA1</td>
+<td>sha1sum <i>file</i></td>
+<td>shasum -a 1 <i>file</i></td>
+<td><i>file</i>.sha1</td>
+</tr>
+<tr><th>SHA-256</th><td>certUtil -hashfile <i>file</i> SHA256</td>
+<td>sha256sum <i>file</i></td>
+<td>shasum -a 256 <i>file</i></td>
+<td><i>file</i>.sha256</td>
+</tr>
+<tr><th>SHA-512</th><td>certUtil -hashfile <i>file</i> SHA512</td>
+<td>sha512sum <i>file</i></td>
+<td>shasum -a 512 <i>file</i></td>
+<td><i>file</i>.sha512</td>
+</tr>
+<tr><th>MD5 (deprecated)</th><td>certUtil -hashfile <i>file</i> MD5</td>
+<td>md5sum <i>file</i></td>
+<td>md5 <i>file</i></td>
+<td><i>file</i>.md5</td>
+</tr>
+</table>
+</blockquote>
+</div>
 <p>Only if you check the hash can you be certain that your download hasn't been modified or is otherwise incomplete or faulty.</p>
 <h2 id="CheckingSignatures">Checking Signatures<a class="headerlink" href="#CheckingSignatures" title="Permalink">&para;</a></h2>
 <p>The following example details how signature interaction works. The example
@@ -253,8 +292,8 @@ detached signature).</p>
 successfully.</p>
 <p>First, we will check the detached signature (<code>httpd-2.0.44.tar.gz.asc</code>)
 against our release (<code>httpd-2.0.44.tar.gz</code>).</p>
-<p><strong><!-- raw HTML omitted --><!-- raw HTML omitted -->N.B. you must specify both the detached signature and the release file.</strong>
-<!-- raw HTML omitted -->If the release file is omitted, GPG will only check the signature against the release file if the signature is a detached signature.
+<p><strong><a name="specify_both"></a>N.B. you must specify both the detached signature and the release file.</strong>
+<br/>If the release file is omitted, GPG will only check the signature against the release file if the signature is a detached signature.
 If the .asc file is a self-contained signed file, GPG will only check that, and will not verify the release.
 (This should not happen if the signature file was downloaded from an ASF server, but it is safer to always specify the release filename)</p>
 <pre><code>% gpg --verify httpd-2.0.44.tar.gz.asc httpd-2.0.44.tar.gz
