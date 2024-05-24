@@ -15,4 +15,4 @@ jobs:
         run: |
           docker pull --quiet 'ghcr.io/sebbasf/infra-pelican:latest'
       - name: Docker exec
-        uses: sebbASF/infra-pelican/build-pelican@main
+        uses: sebbASF/infra-pelican@docker-action
