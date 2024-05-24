@@ -2,6 +2,9 @@
 name: Test Docker load
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - '**/build-docker.yml'
 
 jobs:
   docker:
