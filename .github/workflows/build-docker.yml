@@ -1,0 +1,14 @@
+
+name: Test Docker load
+on:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker pull
+        run: |
+          docker pull 'ghcr.io/sebbasf/infra-pelican:latest'
+      - name: Docker exec
+        - uses: sebbASF/infra-actions/build-pelican@main
