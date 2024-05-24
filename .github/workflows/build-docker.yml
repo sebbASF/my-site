@@ -8,7 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Docker pull
+        shell: bash
         run: |
           docker pull 'ghcr.io/sebbasf/infra-pelican:latest'
-      - name: Docker exec
-        - uses: sebbASF/infra-actions/build-pelican@main
+      # - name: Docker exec
+      #   - uses: sebbASF/infra-actions/build-pelican@main
