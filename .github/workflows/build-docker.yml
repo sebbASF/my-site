@@ -10,11 +10,10 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Docker pull
         shell: bash
         run: |
           docker pull --quiet 'ghcr.io/sebbasf/infra-pelican:latest'
       - name: Docker exec
         uses: sebbASF/infra-pelican@docker-action
-        with:
-          who-to-greet: Test
