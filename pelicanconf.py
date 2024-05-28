@@ -1,3 +1,4 @@
+import datetime
 
 # Basic information about the site.
 SITENAME = 'Apache Software Foundation'
@@ -6,7 +7,7 @@ SITEDOMAIN = 'www.apache.org'
 SITEURL = 'https://www.apache.org'
 SITELOGO = 'https://www.apache.org/images/logo.png'
 SITEREPOSITORY = 'https://github.com/apache/www-site/blob/main/content/'
-CURRENTYEAR = 2024
+CURRENTYEAR = datetime.date.today().year
 TRADEMARKS = 'Apache, the Apache feather logo are trademarks'
 TIMEZONE = 'UTC'
 # Theme includes templates and possibly static files
