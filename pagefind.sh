@@ -28,7 +28,6 @@ set -e # fast exit (must be done after 'which' invocation)
 
 if [ -z "$PAGEFIND" ] # could not find pagefind
 then
-#     b20d0b06b54eb2fba1e290245919376364584a456fb644e66eecdb67549b1cf2  pagefind-v1.1.0-x86_64-unknown-linux-musl.tar.gz
     PAGEFIND_VERSION='1.1.0'
     PAGEFIND_HASH='b20d0b06b54eb2fba1e290245919376364584a456fb644e66eecdb67549b1cf2'
     echo "Download pagefind ${PAGEFIND_VERSION}"
