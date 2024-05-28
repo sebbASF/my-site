@@ -9,7 +9,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: apache/infrastructure-actions/build-pelican@main
+      # - uses: apache/infrastructure-actions/build-pelican@main
+      - uses: sebbASF/my-site/asf-action@main
         with:
           destination: 'gha-site'
           gfm: 'true'

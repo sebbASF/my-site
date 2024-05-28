@@ -1,0 +1,106 @@
+name: Build a Pelican Website
+description: "Generate a Pelican website from Markdown"    
+inputs:
+  destination:
+    description: "Pelican Output branch"
+    required: true
+    default: "asf-site"
+  gfm:
+    description: "Uses GitHub Flavored Markdown"
+    required: false
+    default: 'false'
+  output:
+    description: "Pelican generated output directory"
+    required: false
+    default: 'output'
+  tempdir:
+    description: "Temporary Directory name"
+    required: false
+    default: '.output.tmp'
+runs:
+  using: "composite"
+  steps:
+    - name: Install Pelican
+      run: pip3 install pelican markdown ghp-import bs4 ezt
+      shell: bash
+
+    # If the site uses Github Flavored Markdown, use this build branch
+    - name: fetch libcmark-gfm.so buildscript
+      run: wget https://raw.githubusercontent.com/apache/infrastructure-actions/main/pelican/build-cmark.sh -O ./build-cmark.sh
+      shell: bash
+      if: ${{ inputs.gfm == 'true' }}
+
+    - name: build libcmark-gfm.so
+      run: /bin/bash ./build-cmark.sh
+      shell: bash
+      if: ${{ inputs.gfm == 'true' }}
+
+    - name: Fetch plugin directory from pelicanconf.py
+      id: plugin-paths
+      run: echo "::set-output name=plugpaths::`python3 -m pelican --print-settings PLUGIN_PATHS | tail -n 1 | sed \"s#[][',]##g\"`"
+      shell: bash
+      env: # in case we are using GFM (otherwise ignored)
+        LIBCMARKDIR: "cmark-gfm-0.28.3.gfm.12/lib"
+
+    - name: Fetch plugin list from pelicanconf.py
+      id: plugins-used
+      run: echo "::set-output name=plugins::`python3 -m pelican --print-settings PLUGINS | tail -n 1 | sed \"s#[][',]##g\"`"
+      shell: bash
+      env: # in case we are using GFM (otherwise ignored)
+        LIBCMARKDIR: "cmark-gfm-0.28.3.gfm.12/lib"
+
+    - name: Fetch plugins for site generation
+      shell: bash
+      run: |
+        for plugin in $plugins
+        do 
+          wget https://raw.githubusercontent.com/apache/infrastructure-actions/main/pelican/plugins/$plugin.py -O $plugdir/$plugin.py
+        done
+      env:
+        plugins: ${{ steps.plugins-used.outputs.plugins }}
+        plugdir: ${{ steps.plugin-paths.outputs.plugpaths }}
+    
+    - name: Generate website from markdown
+      run: /usr/bin/env python3 -m pelican content -o ${{ inputs.tempdir }}
+      shell: bash
+      env: # in case we are using GFM (otherwise ignored)
+        LIBCMARKDIR: "cmark-gfm-0.28.3.gfm.12/lib"
+
+    - name: Check out previous branch
+      shell: bash
+      continue-on-error: true
+      run: | 
+        git config --global user.email "private@infra.apache.org"
+        git config --global user.name "Build Pelican (action)"
+        git remote update
+        if git checkout ${{ inputs.destination }}
+        then
+          git pull origin ${{ inputs.destination }}
+        else
+          # if none, create it.
+          echo "branch ${{ inputs.destination }} is new; create basic site"
+          git config --global --add --bool push.autoSetupRemote true
+          git checkout --orphan ${{ inputs.destination }} -f
+          git rm -rf .
+          git checkout origin/${{ github.ref_name }} -- .asf.yaml
+          git add .asf.yaml -f
+        fi
+
+    - name: Commit Directly to the branch
+      shell: bash
+      run: |
+        # Remove all existing output so deletions will be captured
+        rm -rf ${{ inputs.output }}
+        git rm --quiet -r --ignore-unmatch --cached ${{ inputs.output }}/*
+        # replace with generated output
+        mv ${{ inputs.tempdir }} ${{ inputs.output }}
+        git diff # Show changes
+        git add ${{ inputs.output }}
+        git status
+        if git commit -m "Commit build products"
+          then
+              git push
+        else
+          echo "No change"
+          true # ensure step is successful
+        fi
