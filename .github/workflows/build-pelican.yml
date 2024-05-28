@@ -1,20 +1,15 @@
-
-name: Build a Pelican Website
+name: Build a Pelican Website Main
 on:
+  push:
+    paths:
+      - '**/build-pelican.yml'
   workflow_dispatch:
-  # push:
-  #   paths:
-  #     - 'content/**' # can this vary?
-
-permissions:
-  contents: write # needed to commit updates to the output branch
-
 jobs:
   build-pelican:
     runs-on: ubuntu-latest
     steps:
-      - uses: apache/infrastructure-actions/build-pelican@simplify # temp override
+      - uses: actions/checkout@v4
+      - uses: apache/infrastructure-actions/build-pelican@main
         with:
           destination: 'gha-site'
-          # Temp override
-          image: 'ghcr.io/sebbasf/infra-pelican:latest'
+          gfm: 'true'

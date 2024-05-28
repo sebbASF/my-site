@@ -1,0 +1,20 @@
+
+name: Build a Pelican Website Simple
+on:
+  workflow_dispatch:
+  # push:
+  #   paths:
+  #     - 'content/**' # can this vary?
+
+permissions:
+  contents: write # needed to commit updates to the output branch
+
+jobs:
+  build-simple:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: apache/infrastructure-actions/build-pelican@simplify # temp override
+        with:
+          destination: 'gha-site'
+          # Temp override
+          image: 'ghcr.io/sebbasf/infra-pelican:latest'
