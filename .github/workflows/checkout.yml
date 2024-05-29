@@ -12,7 +12,14 @@ jobs:
     steps:
       - name: Checkout Main
         uses: actions/checkout@v4
+      - name: List 1
+        run: |
+          ls -l
+          touch output.tmp
       - name: Checkout Destination
-        uses: actions/checkout@v4
-        with:
-          ref: 'gha-site'
+        run: |
+          ls -l
+          git checkout gha-site
+      - name: List 2
+        run: |
+          ls -l
