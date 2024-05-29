@@ -1,0 +1,18 @@
+name: Checkout
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**/checkout.yml'
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Main
+        uses: actions/checkout@v4
+      - name: Checkout Destination
+        uses: actions/checkout@v4
+        with:
+          ref: 'gha-site'
