@@ -36,7 +36,7 @@ then
     OS_TYPE=x86_64-unknown-linux-musl
     time wget --quiet -O ${TARGET} https://github.com/CloudCannon/pagefind/releases/download/v${PAGEFIND_VERSION}/pagefind-v${PAGEFIND_VERSION}-${OS_TYPE}.tar.gz
     echo "${PAGEFIND_HASH}  ${TARGET}" > ${TARGET}.sha256
-    if shasum -a 256 -c ${TARGET}.sha256
+    if sha256sum -c ${TARGET}.sha256
     then
         tar -C ${BINDIR} -xkf ${TARGET}
     else
