@@ -47,4 +47,7 @@ then
 fi
 
 echo "Running pagefind on ${PELICAN_OUTPUT_PATH}"
+echo "TEMP HACK - don't scan index page"
+mv ${PELICAN_OUTPUT_PATH}/index.html mv ${PELICAN_OUTPUT_PATH}/index.tmp
 ${PAGEFIND} --site ${PELICAN_OUTPUT_PATH} --output-subdir "_pagefind"
+mv ${PELICAN_OUTPUT_PATH}/index.tmp mv ${PELICAN_OUTPUT_PATH}/index.html
