@@ -1,0 +1,22 @@
+name: Build a Pelican Website (sebbASF/cache)
+on:
+  push:
+    # This prevents the workflow from running automatically on a new branch
+    # When creating a new site branch, please ensure that the push and checkout branches agree
+    # and that the action/pelican destination value is updated accordingly
+    branches: [ preview/ghabuild ]
+  workflow_dispatch:
+jobs:
+  build-pelican:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # must agree with branches above and be compatible with destination below
+          ref: preview/ghabuild
+      # - uses: apache/infrastructure-actions/pelican@main
+      # - uses: apache/infrastructure-actions/pelican@artifact-caching
+      - uses: sebbASF/infra-actions/pelican@cache
+        with:
+          # must be compatible with checkout/ref above
+          destination: 'preview/ghabuild-staging'
